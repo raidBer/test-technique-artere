@@ -20,14 +20,12 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    // Create root category
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestParam String name, @RequestParam String description) {
         Category category = categoryService.createCategory(name, description);
         return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
 
-    // Create subcategory
     @PostMapping("/{parentId}/subcategories")
     public ResponseEntity<Category> createSubCategory(@PathVariable Long parentId,
                                                        @RequestParam String name,
@@ -40,7 +38,6 @@ public class CategoryController {
         }
     }
 
-    // Get category by ID
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Optional<Category> category = categoryService.getCategoryById(id);
@@ -48,14 +45,12 @@ public class CategoryController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // Get all root categories
     @GetMapping
     public ResponseEntity<List<Category>> getAllRootCategories() {
         List<Category> categories = categoryService.getAllRootCategories();
         return ResponseEntity.ok(categories);
     }
 
-    // Get subcategories of a category
     @GetMapping("/{parentId}/subcategories")
     public ResponseEntity<List<Category>> getSubCategories(@PathVariable Long parentId) {
         try {
@@ -66,7 +61,6 @@ public class CategoryController {
         }
     }
 
-    // Update category
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id,
                                                     @RequestParam(required = false) String name,
@@ -79,7 +73,6 @@ public class CategoryController {
         }
     }
 
-    // Delete category
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         try {
@@ -90,7 +83,6 @@ public class CategoryController {
         }
     }
 
-    // Link category to parent
     @PostMapping("/{categoryId}/link-to-parent/{parentId}")
     public ResponseEntity<Category> linkCategoryToParent(@PathVariable Long categoryId, @PathVariable Long parentId) {
         try {
@@ -101,7 +93,6 @@ public class CategoryController {
         }
     }
 
-    // Unlink category from parent
     @PostMapping("/{categoryId}/unlink-from-parent")
     public ResponseEntity<Category> unlinkCategoryFromParent(@PathVariable Long categoryId) {
         try {
